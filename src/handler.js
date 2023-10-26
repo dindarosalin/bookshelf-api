@@ -17,29 +17,29 @@ const addItem = (request, i) => {
   } = request.payload;
 
   if (!name) {
-    const response = i
-      .response({
+    const respon = i
+      .respon({
         status: 'fail',
         message: 'Gagal menambahkan buku. Mohon isi nama buku',
       })
       .code(400);
-    return response;
+    return respon;
   }
 
   if (readPage > pageCount) {
-    const response = i
-      .response({
+    const respon = i
+      .respon({
         status: 'fail',
         message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
       })
       .code(400);
-    return response;
+    return respon;
   }
 
   const id = nanoid(16);
-  const finish = pageCount === readPage;
-  const insertAt = new Date().toISOString();
-  const updateAt = insertAt;
+  const finished = pageCount === readPage;
+  const insertedAt = new Date().toISOString();
+  const updatedAt = insertedAt;
 
   const newItem = {
     id,
@@ -50,17 +50,17 @@ const addItem = (request, i) => {
     publisher,
     pageCount,
     readPage,
-    finish,
+    finished,
     reading,
-    insertAt,
-    updateAt,
+    insertedAt,
+    updatedAt,
   }; items.push(newItem);
 
   const success = items.filter((book) => book.id === id).length > 0;
 
   if (success) {
-    const response = i
-      .response({
+    const respon = i
+      .respon({
         status: 'success',
         message: 'Buku berhasil ditambahkan',
         data: {
@@ -68,26 +68,26 @@ const addItem = (request, i) => {
         },
       })
       .code(201);
-    return response;
+    return respon;
   }
 
-  const response = i
-    .response({
+  const respon = i
+    .respon({
       status: 'fail',
       message: 'gagal menambahkan buku',
     })
     .code(500);
-  return response;
+  return respon;
 };
 
 const getAllItems = (request, i) => {
-  const { name, reading, finish } = request.query;// Terdapat query name
+  const { name, reading, finished } = request.query;// Terdapat query name
   if (name) {
     const filteredBooksName = items.filter((book) => {
       const nameRegex = new RegExp(name, 'gi');
       return nameRegex.test(book.name);
-    }); const response = i
-      .response({
+    }); const respon = i
+      .respon({
         status: 'success',
         data: {
           books: filteredBooksName.map((book) => ({
@@ -97,13 +97,13 @@ const getAllItems = (request, i) => {
           })),
         },
       })
-      .code(200); return response;
+      .code(200); return respon;
   }
   if (reading) {
     const filteredBooksReading = items.filter(
       (book) => Number(book.reading) === Number(reading),
-    ); const response = i
-      .response({
+    ); const respon = i
+      .respon({
         status: 'success',
         data: {
           book: filteredBooksReading.map((book) => ({
@@ -113,26 +113,26 @@ const getAllItems = (request, i) => {
           })),
         },
       })
-      .code(200); return response;
+      .code(200); return respon;
   }
-  if (finish) {
-    const filteredBooksfinish = items.filter(
-      (book) => Number(book.finish) === Number(finish),
-    ); const response = i
-      .response({
+  if (finished) {
+    const filteredBooksfinished = items.filter(
+      (book) => Number(book.finished) === Number(finished),
+    ); const respon = i
+      .respon({
         status: 'success',
         data: {
-          books: filteredBooksfinish.map((book) => ({
+          books: filteredBooksfinished.map((book) => ({
             id: book.id,
             name: book.name,
             publisher: book.publisher,
           })),
         },
       })
-      .code(200); return response;
+      .code(200); return respon;
   }
-  const response = i
-    .response({
+  const respon = i
+    .respon({
       status: 'success',
       data: {
         books: items.map((book) => ({
@@ -142,30 +142,30 @@ const getAllItems = (request, i) => {
         })),
       },
     })
-    .code(200); return response;
+    .code(200); return respon;
 };
 
 const getItemId = (request, i) => {
   const { bookId } = request.params;
   const book = items.filter((note) => note.id === bookId)[0];
   if (book) {
-    const response = i
-      .response({
+    const respon = i
+      .respon({
         status: 'success',
         data: {
           book,
         },
       })
       .code(200);
-    return response;
+    return respon;
   }
-  const response = i
-    .response({
+  const respon = i
+    .respon({
       status: 'fail',
       message: 'Buku tidak ditemukan',
     })
     .code(404);
-  return response;
+  return respon;
 };
 
 const updateItem = (request, i) => {
@@ -181,25 +181,25 @@ const updateItem = (request, i) => {
     reading,
   } = request.payload;
   if (!name) {
-    const response = i
-      .response({
+    const respon = i
+      .respon({
         status: 'fail',
         message: 'Gagal memperbarui buku. Mohon isi nama buku',
       })
       .code(400);
-    return response;
+    return respon;
   }
   if (readPage > pageCount) {
-    const response = i
-      .response({
+    const respon = i
+      .respon({
         status: 'fail',
         message:
         'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
       })
       .code(400);
-    return response;
-  } const finish = pageCount === readPage;
-  const updateAt = new Date().toISOString(); const index = items.findIndex((book) => book.id === bookId);// Jika book dengan id yang dicari ditemukan
+    return respon;
+  } const finished = pageCount === readPage;
+  const updatedAt = new Date().toISOString(); const index = items.findIndex((book) => book.id === bookId);// Jika book dengan id yang dicari ditemukan
   if (index !== -1) {
     items[index] = {
       ...items[index],
@@ -211,44 +211,44 @@ const updateItem = (request, i) => {
       pageCount,
       readPage,
       reading,
-      finish,
-      updateAt,
-    }; const response = i
-      .response({
+      finished,
+      updatedAt,
+    }; const respon = i
+      .respon({
         status: 'success',
         message: 'Buku berhasil diperbarui',
       })
       .code(200);
-    return response;
+    return respon;
   }
 
-  const response = i
-    .response({
+  const respon = i
+    .respon({
       status: 'fail',
       message: 'Gagal memperbarui buku. Id tidak ditemukan',
     })
     .code(404);
-  return response;
+  return respon;
 };
 
 const deleteItem = (request, i) => {
   const { bookId } = request.params; const index = items.findIndex((book) => book.id === bookId);// Jika book dengan id yang dicari ditemukan
   if (index !== -1) {
-    items.splice(index, 1); const response = i
-      .response({
+    items.splice(index, 1); const respon = i
+      .respon({
         status: 'success',
         message: 'Buku berhasil dihapus',
       })
       .code(200);
-    return response;
+    return respon;
   }
-  const response = i
-    .response({
+  const respon = i
+    .respon({
       status: 'fail',
       message: 'Buku gagal dihapus. Id tidak ditemukan',
     })
     .code(404);
-  return response;
+  return respon;
 };
 
 module.exports = {
