@@ -1,23 +1,24 @@
 {
-  "name": "bookshelf-api",
+  "name": "book-shelf-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/server.js",
-    "lint": "eslint ./src"
+    "lint": "eslint ./"
   },
   "keywords": [],
-  "author": "dindarosalin <dindarosalin24@gmail.com>",
+  "author": "dindarosalin24@gmail.com",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.52.0",
+    "eslint": "^8.53.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.0"
+    "eslint-plugin-import": "^2.29.0",
+    "nodemon": "^3.0.1"
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.2",
-    "nanoid": "^3.3.6"
+    "nanoid": "^3.3.7"
   }
 }

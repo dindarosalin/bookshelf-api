@@ -1,38 +1,33 @@
-/* eslint-disable linebreak-style */
+/* eslint-disable max-len */
 const {
-  addItem, getAllItems, getItemId, updateItem, deleteItem,
+  addBookHandler, getAllBooksHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler,
 } = require('./handler');
 
 const routes = [
   {
     method: 'POST',
     path: '/books',
-    handler: addItem,
+    handler: addBookHandler,
   },
   {
     method: 'GET',
     path: '/books',
-    handler: getAllItems,
+    handler: getAllBooksHandler,
   },
   {
     method: 'GET',
-    path: '/books/{bookId}',
-    handler: getItemId,
+    path: '/books/{id}',
+    handler: getBookByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/books/{bookId}',
-    handler: updateItem,
+    path: '/books/{id}',
+    handler: editBookByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/books/{bookId}',
-    handler: deleteItem,
-  },
-  {
-    method: '*',
-    path: '/{any*}',
-    handler: () => 'Halaman tidak ditemukan',
+    path: '/books/{id}',
+    handler: deleteBookByIdHandler,
   },
 ];
 
